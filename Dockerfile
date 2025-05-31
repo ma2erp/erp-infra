@@ -42,18 +42,9 @@ RUN apt update && \
 
 COPY start.sh /usr/local/bin/start.sh
 
-RUN service mariadb start && \
-    mariadb-secure-installation <<EOF
-
-y
-y
-m
-m
-y
-y
-y
-y
-EOF
+COPY maria.sh /usr/local/bin/maria.sh
+RUN chmod +x /usr/local/bin/maria.sh && \
+    /usr/local/bin/maria.sh
 
 COPY my.cnf /etc/mysql/my.cnf
 
@@ -125,4 +116,5 @@ RUN sudo service mariadb start && \
 RUN sudo apt update && sudo apt install -y netcat-traditional
 RUN sudo chmod +x /usr/local/bin/start.sh
 
-CMD ["/usr/local/bin/start.sh"]
+# CMD ["/usr/local/bin/start.sh"]
+ENTRYPOINT [ "/usr/local/bin/start.sh" ]

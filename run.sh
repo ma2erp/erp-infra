@@ -32,3 +32,4 @@ sudo docker run -it -p 8000:8000 -p 9000:9000 \
     -v frappe_logs_data:/home/frappeuser/erpnext-bench/logs \
     -v frappe_mysql_data:/var/lib/mysql \
     frappe_app_container:latest
+
