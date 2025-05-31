@@ -1,9 +1,7 @@
-# Set variables
 $imageName = "frappe_app_container"
 $imageTag = "latest"
 $containerName = "my-frappe-instance"
 
-# Define named volumes
 $volumes = @(
     "frappe_sites_data",
     "frappe_assets_data",
@@ -53,7 +51,6 @@ if ($existingContainer) {
 # --- 4. Run the Docker Container ---
 Write-Host "Running Docker container '$containerName'..."
 
-# Construct the volume mount arguments
 $volumeMountArgs = ""
 $volumeMountArgs += "-v frappe_sites_data:/home/frappeuser/erpnext-bench/sites "
 $volumeMountArgs += "-v frappe_assets_data:/home/frappeuser/erpnext-bench/sites/assets "
@@ -63,9 +60,7 @@ $volumeMountArgs += "-v frappe_mysql_data:/var/lib/mysql "
 # The full run command
 $runCommand = "docker run -it -p 8000:8000 -p 9000:9000 $volumeMountArgs $($imageName):$($imageTag) $containerName"
 
-# Execute the run command
 Write-Host "Executing: $runCommand"
-# Use Invoke-Expression to run the string as a command. This is needed because of the line breaks and backticks.
 Invoke-Expression $runCommand
 
 if ($LASTEXITCODE -ne 0) {
