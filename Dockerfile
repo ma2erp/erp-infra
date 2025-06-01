@@ -40,13 +40,13 @@ RUN apt update && \
     libfontconfig && \
     rm -rf /var/lib/apt/lists/*
 
-COPY start.sh /usr/local/bin/start.sh
+COPY res/start.sh /usr/local/bin/start.sh
 
-COPY maria.sh /usr/local/bin/maria.sh
+COPY res/maria.sh /usr/local/bin/maria.sh
 RUN chmod +x /usr/local/bin/maria.sh && \
     /usr/local/bin/maria.sh
 
-COPY my.cnf /etc/mysql/my.cnf
+COPY res/my.cnf /etc/mysql/my.cnf
 
 RUN service mariadb restart
 
@@ -116,5 +116,4 @@ RUN sudo service mariadb start && \
 RUN sudo apt update && sudo apt install -y netcat-traditional
 RUN sudo chmod +x /usr/local/bin/start.sh
 
-# CMD ["/usr/local/bin/start.sh"]
 ENTRYPOINT [ "/usr/local/bin/start.sh" ]
