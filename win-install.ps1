@@ -61,9 +61,16 @@ if (-Not (Test-Path -Path $dockerDesktopPath)) {
 } else {
     Write-Host "Starting Docker Desktop..."
     if (-not (Get-Process -Name "Docker Desktop" -ErrorAction SilentlyContinue)) {
-        Write-Host "Docker Desktop is not running. Starting it now... Rerun this script after Docker Desktop is fully started."
+        Write-Host "Docker Desktop is not running. Starting it now..."
         Start-Process -FilePath $dockerDesktopPath -PassThru -ErrorAction SilentlyContinue | Out-Null
-        exit 1
+        Write-Host "Docker Desktop has been started. Please wait for it to fully initialize before proceeding."
+        Write-Host "Press any key to continue when Docker Desktop is ready."
+        $null = $Host.UI.RawUI.ReadKey("NoEcho,IncludeKeyDown")
+        Write-Host "Continuing with the script..."
+        if (-not (Get-Process -Name "Docker Desktop" -ErrorAction SilentlyContinue)) {
+            Write-Error "Failed to start Docker Desktop. Please check the installation and try again."
+            exit 1
+        }
     } else {
         Write-Host "Docker Desktop is already running."
     }
